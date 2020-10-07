@@ -93,9 +93,11 @@ client.follow(object.user.screen_name)
 
 #client.filter(track: topics) {|m| client.fav m && client.follow(m.user.screen_name)}
 
-client.filter(track:"#bonjour_monde",result_type:"recent") do |tweet| 
+topics = ["#bonjour_monde"]
+
+client.filter(track:topics.join(","),result_type:"recent") do |tweet| 
   login_twitter.favorite(tweet)
   login_twitter.follow(tweet.user.screen_name)
-  puts object.text if object.is_a?(Twitter::Tweet)
+  puts tweet.text if tweet.is_a?(Twitter::Tweet)
 
 end 
