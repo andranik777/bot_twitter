@@ -74,22 +74,15 @@ end
 
 topics = ["#bonjour_monde"]
 
+#like and follow
 client.filter(track: topics.join(",")) do |object|
   puts object.text if object.is_a?(Twitter::Tweet)
 
 end
 
-#follow
-client.filter(track: topics.join(",")) do |object|
-client.follow(object.user.screen_name) if object.is_a?(Twitter::Tweet)
-end
-#like
-lient.filter(track: topics.join(",")) do |object|
-object.favorite if object.is_a?(Twitter::Tweet)
-end
-
 puts object.text
-puts object
+client.fav object
+client.follow(object.user.screen_name)
 
 #client.follow(object.user.screen_name)
 #client.favorite(object)
