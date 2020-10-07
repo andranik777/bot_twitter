@@ -40,7 +40,6 @@ def liker_bonjour(login_twitter)
 tweets = login_twitter.search(
   "#bonjour_monde",
   result_type: 'recent',
-  # since_id: since_id   # your last processed id
 
 ).take(25)
 #recuperier les 25 tweets les plus recents avec le tag #bonjour_monde  
@@ -54,7 +53,7 @@ end
 
 def follow_bonjour(login_twitter)
   login_twitter.search("#bonjour_monde", result_type: "recent").take(25).map do |tweet|
-    login_twitter.follow(tweet.user.screen_name)
+  login_twitter.follow(tweet.user.screen_name)
   end
 end
 
@@ -72,6 +71,7 @@ client = Twitter::Streaming::Client.new do |config|
   config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
 end
 
+=begin
 topics = ["#bonjour_monde"]
 
 #like and follow
@@ -83,7 +83,19 @@ end
 puts object.text
 client.fav object
 client.follow(object.user.screen_name)
-
+#object = tweet
 #client.follow(object.user.screen_name)
 #client.favorite(object)
 
+=end
+
+#topics = "#bonjour_monde"
+
+#client.filter(track: topics) {|m| client.fav m && client.follow(m.user.screen_name)}
+
+client.filter(track:"#bonjour_monde",result_type:"recent") do |tweet| 
+  login_twitter.favorite(tweet)
+  login_twitter.follow(tweet.user.screen_name)
+  puts object.text if object.is_a?(Twitter::Tweet)
+
+end 
